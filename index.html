@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Birthday Surprise 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+
+    body{
+      font-family:"Poppins",sans-serif;
+      min-height:100vh;
+      background: radial-gradient(circle at top, #ffd1dc, #ffe6ff, #fff0f5);
+      overflow-x:hidden;
+      overflow-y:auto;
+      position:relative;
+      color:#333;
+    }
+
+    .page{
+      min-height:100vh;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:2rem 1.5rem 3rem;
+      text-align:center;
+      position:relative;
+      z-index:1;
+    }
+    .page.active{
+      display:flex;
+    }
+
+    .inner-box{
+      max-width:520px;
+      margin:0 auto;
+      background:rgba(255,255,255,0.9);
+      border-radius:22px;
+      padding:2rem 1.6rem 2.4rem;
+      box-shadow:0 12px 30px rgba(0,0,0,0.12);
+    }
+
+    .title-script{
+      font-family:"Great Vibes",cursive;
+      font-size:3rem;
+      color:#ff2f78;
+      margin-bottom:0.5rem;
+    }
+    .sub-name{
+      font-size:1.5rem;
+      font-weight:600;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      color:#444;
+    }
+
+    .big-emoji{
+      font-size:2.2rem;
+      margin-bottom:1rem;
+    }
+
+    p{
+      font-size:0.98rem;
+      line-height:1.6;
+      margin-bottom:0.7rem;
+    }
+
+    .btn{
+      display:inline-block;
+      margin-top:1.1rem;
+      padding:0.8rem 1.8rem;
+      border-radius:999px;
+      border:none;
+      cursor:pointer;
+      font-size:0.95rem;
+      font-weight:600;
+      background:linear-gradient(135deg,#ff4f8b,#ff9a9e);
+      color:#fff;
+      box-shadow:0 8px 18px rgba(255,79,139,0.4);
+      transition:0.2s;
+    }
+    .btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 26px rgba(255,79,139,0.6);
+    }
+
+    .btn-secondary{
+      background:#ffe1eb;
+      color:#ff2f78;
+      box-shadow:0 8px 18px rgba(255,79,139,0.25);
+    }
+
+    /* TIMER STYLE */
+    .timer-box{
+      margin:1rem auto 0.8rem;
+      padding:0.8rem 0.6rem;
+      border-radius:16px;
+      background:#fff5fa;
+      border:1px dashed #ffb6d9;
+      display:flex;
+      justify-content:center;
+      gap:0.8rem;
+      flex-wrap:wrap;
+    }
+    .time-part{
+      min-width:60px;
+    }
+    .time-number{
+      font-size:1.2rem;
+      font-weight:600;
+      color:#ff2f78;
+    }
+    .time-label{
+      font-size:0.75rem;
+      text-transform:uppercase;
+      letter-spacing:0.05em;
+      color:#777;
+    }
+
+    .mini-box{
+      margin-top:0.8rem;
+      padding:0.7rem 0.8rem;
+      border-radius:14px;
+      background:#fff0f7;
+      font-size:0.9rem;
+      color:#555;
+    }
+
+    .loading-buttons{
+      display:flex;
+      justify-content:center;
+      gap:0.5rem;
+      margin-top:0.9rem;
+      flex-wrap:wrap;
+    }
+    .load-pill{
+      padding:0.4rem 0.9rem;
+      border-radius:999px;
+      border:none;
+      font-size:0.8rem;
+      background:#ffe1eb;
+      color:#ff2f78;
+      box-shadow:0 4px 10px rgba(0,0,0,0.08);
+      animation:pulse 1.2s infinite alternate;
+    }
+    @keyframes pulse{
+      from{transform:translateY(0);opacity:0.7;}
+      to{transform:translateY(-3px);opacity:1;}
+    }
+
+    /* CARD PAGE */
+    .card-box{
+      margin-top:1.3rem;
+    }
+    .card-click{
+      margin:0.8rem auto 1rem;
+      max-width:260px;
+      padding:1rem 1rem;
+      border-radius:18px;
+      border:2px dashed #ff9a9e;
+      background:#fff0f7;
+      cursor:pointer;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:0.3rem;
+      transition:0.2s;
+    }
+    .card-click:hover{
+      transform:translateY(-3px) scale(1.02);
+      box-shadow:0 10px 24px rgba(0,0,0,0.15);
+    }
+    .card-main-text{
+      font-size:0.95rem;
+      font-weight:500;
+      color:#444;
+    }
+    .card-emoji{
+      font-size:1.8rem;
+    }
+    .card-click-hint{
+      font-size:0.85rem;
+      color:#ff2f78;
+      margin-top:0.2rem;
+    }
+
+    .wish-text{
+      margin-top:1rem;
+      font-size:0.96rem;
+      color:#555;
+    }
+
+    .photo-wrapper{
+      margin:1.3rem 0;
+    }
+    .photo-wrapper img{
+      width:180px;
+      height:180px;
+      border-radius:50%;
+      object-fit:cover;
+      border:4px solid #ffe6f1;
+      box-shadow:0 10px 24px rgba(0,0,0,0.18);
+    }
+
+    .from-line{
+      margin-top:1.3rem;
+      font-size:0.95rem;
+      text-align:right;
+      color:#666;
+    }
+    .from-line span{
+      font-family:"Great Vibes",cursive;
+      font-size:1.5rem;
+      color:#ff2f78;
+    }
+
+    /* PAGE 4 – 12 HIDDEN SURPRISES */
+    .month-intro{
+      margin-bottom:1.2rem;
+      font-size:0.96rem;
+      color:#555;
+    }
+    .months-grid{
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.8rem;
+      justify-content:center;
+      margin-top:0.5rem;
+    }
+    .month-card{
+      flex:1 1 150px;
+      max-width:160px;
+      background:#fff5fa;
+      border-radius:14px;
+      border:1px dashed #ffb6d9;
+      padding:0.7rem 0.6rem;
+      text-align:center;
+      box-shadow:0 6px 14px rgba(0,0,0,0.06);
+      font-size:0.85rem;
+      cursor:pointer;
+      transition:0.2s;
+    }
+    .month-card:hover{
+      transform:translateY(-3px);
+      box-shadow:0 10px 20px rgba(0,0,0,0.12);
+    }
+    .month-label{
+      font-weight:600;
+      color:#ff2f78;
+      margin-bottom:0.25rem;
+      font-size:0.9rem;
+    }
+    .month-msg{
+      color:#555;
+      line-height:1.5;
+      display:none; /* hidden initially */
+      margin-top:0.25rem;
+    }
+
+    /* PASSWORD AREA */
+    .password-box{
+      margin-top:1.6rem;
+      padding:1rem 1rem;
+      border-radius:16px;
+      background:#fff0f7;
+      border:1px dashed #ffb6d9;
+      font-size:0.9rem;
+      color:#555;
+    }
+    .password-input{
+      margin-top:0.7rem;
+      padding:0.6rem 0.9rem;
+      width:100%;
+      max-width:260px;
+      border-radius:999px;
+      border:1px solid #ffb6d9;
+      outline:none;
+      font-size:0.9rem;
+    }
+    .password-input:focus{
+      box-shadow:0 0 0 2px rgba(255,79,139,0.25);
+    }
+    .error-text{
+      margin-top:0.5rem;
+      font-size:0.8rem;
+      color:#cc0044;
+      display:none;
+    }
+
+    /* PAGE 5 – CRAZY SURPRISE BOX */
+    .big-text{
+      font-family:"Great Vibes",cursive;
+      font-size:3.2rem;
+      color:#ff2f78;
+      margin-bottom:0.6rem;
+    }
+    .small-sub{
+      font-size:0.98rem;
+      color:#555;
+      margin-bottom:0.6rem;
+    }
+
+    .crazy-wrapper{
+      margin-top:1.2rem;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .crazy-box{
+      position:relative;
+      width:320px;
+      height:240px;
+      margin:0 auto;
+      transform-origin:center bottom;
+      animation:boxWiggle 1.2s ease-in-out infinite alternate;
+      cursor:pointer;
+    }
+
+    .box-base{
+      position:absolute;
+      left:50%;
+      bottom:0;
+      transform:translateX(-50%);
+      width:260px;
+      height:160px;
+      background:linear-gradient(135deg,#ff9a9e,#ff4f8b);
+      border-radius:20px;
+      box-shadow:0 12px 26px rgba(0,0,0,0.3);
+      overflow:hidden;
+    }
+
+    .box-lid{
+      position:absolute;
+      left:50%;
+      bottom:150px;
+      transform:translateX(-50%);
+      width:280px;
+      height:55px;
+      background:linear-gradient(135deg,#ffd1dc,#ff9a9e);
+      border-radius:22px;
+      box-shadow:0 10px 22px rgba(0,0,0,0.25);
+      transform-origin:bottom center;
+    }
+
+    .box-ribbon{
+      position:absolute;
+      top:0;
+      left:50%;
+      transform:translateX(-50%);
+      width:32px;
+      height:100%;
+      background:rgba(255,255,255,0.45);
+    }
+
+    .box-text{
+      display:none; /* not used now */
+    }
+
+    /* When box is "open" */
+    .crazy-box.open{
+      animation:popIn 0.7s ease-out forwards;
+    }
+    .crazy-box.open .box-lid{
+      animation:lidOpen 0.8s ease-out forwards;
+    }
+
+    /* POEM + FINAL MESSAGE */
+    .poem-container{
+      margin-top:1.4rem;
+      padding:1rem 1.1rem;
+      border-radius:18px;
+      background:#fff0f7;
+      border:1px dashed #ffb6d9;
+      text-align:left;
+      font-size:0.95rem;
+      color:#555;
+    }
+
+    .final-container{
+      margin-top:1.2rem;
+      text-align:center;
+      font-size:0.95rem;
+      color:#555;
+      padding:0;
+      border:none;
+      background:transparent; /* no pink box */
+    }
+
+    .poem-text{
+      line-height:1.8;
+    }
+
+    .final-text{
+      line-height:1.7;
+      margin-bottom:0.5rem;
+    }
+
+    .happy-big{
+      display:inline-block;
+      font-size:1.45rem;
+      font-weight:600;
+      color:#ff2f78;
+    }
+
+    /* Fade-in animation */
+    .fade-in{
+      animation:fadeInUp 0.8s ease-out both;
+    }
+    @keyframes fadeInUp{
+      from{opacity:0;transform:translateY(18px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    /* soft fade for celebrating line */
+    @keyframes softFade{
+      from{opacity:0;transform:translateY(5px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    /* Wiggle + box animations */
+    @keyframes boxWiggle{
+      from{transform:translateY(0) rotate(-2deg);}
+      to{transform:translateY(-6px) rotate(2deg);}
+    }
+    @keyframes popIn{
+      0%{transform:scale(0.7) translateY(40px);}
+      70%{transform:scale(1.05) translateY(0);}
+      100%{transform:scale(1) translateY(0);}
+    }
+    @keyframes lidOpen{
+      0%{transform:translateX(-50%) rotate(0deg);}
+      50%{transform:translateX(-50%) rotate(-40deg);}
+      100%{transform:translateX(-50%) rotate(-55deg);}
+    }
+
+    /* Floating hearts background (all pages) */
+    .heart{
+      position:fixed;
+      width:22px;
+      height:22px;
+      background:#ff4f8b;
+      transform:rotate(45deg);
+      opacity:0.9;
+      animation:floatUp 10s linear infinite;
+      z-index:0;
+    }
+    .heart::before,
+    .heart::after{
+      content:"";
+      position:absolute;
+      width:22px;height:22px;
+      background:#ff4f8b;
+      border-radius:50%;
+    }
+    .heart::before{top:-11px;left:0;}
+    .heart::after{top:0;left:-11px;}
+    @keyframes floatUp{
+      0%{transform:translateY(120vh) rotate(45deg);opacity:0.95;}
+      100%{transform:translateY(-120vh) rotate(45deg);opacity:0;}
+    }
+
+    @media (max-width:480px){
+      .title-script{font-size:2.3rem;}
+      .big-text{font-size:2.6rem;}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background music -->
+  <audio id="bgMusic" loop>
+    <source src="music/music.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- Hearts script (all pages) -->
+  <script>
+    function createHeart(){
+      const h = document.createElement("div");
+      h.classList.add("heart");
+      h.style.left = Math.random()*100 + "vw";
+      h.style.animationDuration = 8 + Math.random()*4 + "s";
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),12000);
+    }
+    setInterval(createHeart,450);
+  </script>
+
+  <!-- PAGE 1 -->
+  <section id="page1" class="page active">
+    <div class="inner-box">
+      <div class="big-emoji">❤️❤️❤️</div>
+      <p style="font-weight:600;margin-bottom:0.8rem;">
+        Loading something special...
+      </p>
+      <p>🎂 ✨ 🎁 ❤️ 🎈</p>
+      <p style="font-size:0.85rem;color:#777;margin-top:1rem;">
+        (Tap the button when you're ready 👇)
+      </p>
+      <button class="btn" id="toPage2">Next ➜</button>
+    </div>
+  </section>
+
+  <!-- PAGE 2 -->
+  <section id="page2" class="page">
+    <div class="inner-box">
+      <div class="big-emoji">💗</div>
+      <p style="font-weight:600;font-size:1.1rem;margin-bottom:0.6rem;">
+        Your special day is almost here 💖
+      </p>
+
+      <!-- Timer -->
+      <div id="timerSection">
+        <div class="timer-box" id="timerBox">
+          <div class="time-part">
+            <div class="time-number" id="days">00</div>
+            <div class="time-label">Days</div>
+          </div>
+          <div class="time-part">
+            <div class="time-number" id="hours">00</div>
+            <div class="time-label">Hours</div>
+          </div>
+          <div class="time-part">
+            <div class="time-number" id="minutes">00</div>
+            <div class="time-label">Minutes</div>
+          </div>
+          <div class="time-part">
+            <div class="time-number" id="seconds">10</div>
+            <div class="time-label">Seconds</div>
+          </div>
+        </div>
+
+        <div class="mini-box">
+          Just a little more... a small gift for my favourite person ❤️
+        </div>
+
+        <div class="loading-buttons">
+          <button class="load-pill">Loading. . .</button>
+        </div>
+      </div>
+
+      <!-- Date (shows when timer ends) -->
+      <p id="birthdayDate" style="margin-top:1.2rem;font-size:0.95rem;color:#555;display:none;">
+        14 December 1999<br>
+        <span id="celebrateLine" style="font-size:0.9rem; color:#000; font-style:italic; opacity:0;">
+          and celebrating everyday... here you gooo ✨
+        </span>
+      </p>
+
+      <!-- Button that appears after timer -->
+      <button class="btn" id="toPage3" style="display:none;margin-top:1rem;">
+        For you ➜
+      </button>
+    </div>
+  </section>
+
+  <!-- PAGE 3 -->
+  <section id="page3" class="page">
+    <div class="inner-box">
+      <div class="title-script">Happy Birthday</div>
+      <div class="sub-name">Prashanth 🎂✨</div>
+
+      <div class="card-box">
+        <p style="margin-top:0.8rem;">
+          A tiny website for a very big place you have in my heart. 💖
+        </p>
+      </div>
+
+      <!-- Card to tap -->
+      <div class="card-click" id="openCard">
+        <div class="card-main-text">There is a little love hidden inside</div>
+        <div class="card-emoji">🎁</div>
+        <div class="card-click-hint">click here ✨</div>
+      </div>
+
+      <!-- Birthday wish text -->
+      <p class="wish-text">
+        May every wish come true, every dream get a little closer, and every day ahead
+        be kinder to you than the last. You deserve soft mornings, loud laughs, silly
+        memories and a life that feels like your favourite comfort song. ✨
+      </p>
+
+      <!-- Photo -->
+      <div class="photo-wrapper">
+        <img src="images/image.jpg" alt="Prashanth">
+      </div>
+
+      <div class="from-line">
+        From <span>Deekshi</span> 🩷
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 4 – 12 hidden surprise messages + PASSWORD -->
+  <section id="page4" class="page">
+    <div class="inner-box">
+      <div class="big-emoji">💌</div>
+      <p class="month-intro">
+        These are 12 little surprise messages for each month till your next birthday.  
+        Open one box at a time and read it, and think of me. 🫶✨
+      </p>
+
+      <div class="months-grid">
+        <div class="month-card">
+          <div class="month-label">Tap to open 💌</div>
+          <div class="month-msg">You are loved more than you realise.</div>
+        </div>
+        <div class="month-card">
+          <div class="month-label">Tap to open 💌</div>
+          <div class="month-msg">Be gentle with yourself. Be proud of how far you’ve come.</div>
+        </div>
+        <div class="month-card">
+          <div class="month-label">Tap to open 💌</div>
+          <div class="month-msg">Be happy everyday...</div>
+        </div>
+        <div class="month-card">
+          <div class="month-label">Tap to open 💌</div>
+          <div class="month-msg">Remember: you are not alone. I'm always here for you.</div>
+        </div>
+        <div class="month-card">
+          <div class="month-label">Tap to open 💌</div>
+          <div class="month-msg">I'm always afraid of losing you.</div>
+        </div>
+        <div class="month-card">
+          <div class="month-label">Tap to open 💌</div>
+          <div class="month-msg">If you are going through something... good or bad, share it with me.</div>
+        </div>
+        <div class="month-card">
+          <div class="month-label">Tap to open 💌</div>
+          <div class="month-msg">Celebrate even silly little things.</div>
+        </div>
+        <div class="month-card">
+          <div class="month-label">Tap to open 💌</div>
+          <div class="month-msg">You are unique... Don't change that. Be you. Be "Prashanth".</div>
+        </div>
+        <div class="month-card">
+          <div class="month-label">Tap to open 💌</div>
+          <div class="month-msg">May everything you dream of come true.</div>
+        </div>
+        <div class="month-card">
+          <div class="month-label">Tap to open 💌</div>
+          <div class="month-msg">If you ever feel lost, stay calm and think... you will figure it out.</div>
+        </div>
+        <div class="month-card">
+          <div class="month-label">Tap to open 💌</div>
+          <div class="month-msg">You are always my favourite :)</div>
+        </div>
+        <div class="month-card">
+          <div class="month-label">Tap to open 💌</div>
+          <div class="month-msg">Ummmaahhhh  So bad of you   I hate you (but not really 🥺).</div>
+        </div>
+      </div>
+
+      <!-- PASSWORD AREA -->
+      <div class="password-box">
+        <p>
+          One last secret level...  
+          Enter the password to unlock a crazy surprise box 😈🎁
+        </p>
+        <input
+          type="password"
+          id="passwordInput"
+          class="password-input"
+          placeholder="Enter password"
+        />
+        <button class="btn" id="unlockBtn">Unlock ➜</button>
+        <p id="wrongPassword" class="error-text">
+          Wrong password babyyy 😼 try again...
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 5 – Crazy surprise box -->
+  <section id="page5" class="page">
+    <div class="inner-box">
+      <div class="big-emoji">🎁🤯</div>
+      <div class="big-text">Crazy Surprise Box</div>
+      <p class="small-sub">
+        Okay... you passed the secret level.  
+        Now tap this gift box and see what happens. 😏
+      </p>
+
+      <div class="crazy-wrapper" id="crazyWrapper">
+        <div class="crazy-box" id="crazyBox">
+          <div class="box-base">
+            <div class="box-ribbon"></div>
+          </div>
+          <div class="box-lid"></div>
+        </div>
+      </div>
+
+      <!-- Poem appears after clicking the box -->
+      <div id="poemContainer" class="poem-container" style="display:none;">
+        <p class="poem-text">
+          Parichayam Chalu Anukunna,<br>
+          Prapamcham Aypoyavy.<br>
+          Kasepu Chusi Agipodam Anukunna,<br>
+          Prema Aypoyavu.<br>
+          Koncham Samayam Icchi Chudam Anukunna,<br>
+          Sarvasvam Aypoyavu.<br>
+          Gundello Pettukundam Anukunna,<br>
+          Gudisipotha Anukoledu.
+        </p>
+      </div>
+
+      <!-- Final message appears later -->
+      <div id="finalContainer" class="final-container" style="display:none;">
+        <p class="final-text">
+          <strong>It was just for fun...</strong><br>
+          but I know you doubt to believe me... it's ok...<br>
+          but I will love you the same, always. 💗
+        </p>
+        <p class="final-text">
+          <span class="happy-big">Happy Birthday once again! 🎂✨</span><br>
+          I hope you liked my surprise...
+        </p>
+      </div>
+
+      <div class="choice-buttons" style="margin-top:1.6rem;display:flex;justify-content:center;gap:0.8rem;flex-wrap:wrap;">
+        <button class="btn btn-secondary" id="backToMessages">⟵ Back</button>
+        <button class="btn" id="exitToStart">Go to Start</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <script>
+    // PAGES
+    const page1 = document.getElementById("page1");
+    const page2 = document.getElementById("page2");
+    const page3 = document.getElementById("page3");
+    const page4 = document.getElementById("page4");
+    const page5 = document.getElementById("page5");
+
+    // BUTTONS
+    const toPage2Btn = document.getElementById("toPage2");
+    const toPage3Btn = document.getElementById("toPage3");
+    const openCard = document.getElementById("openCard");
+
+    const unlockBtn = document.getElementById("unlockBtn");
+    const passwordInput = document.getElementById("passwordInput");
+    const wrongPassword = document.getElementById("wrongPassword");
+
+    const backToMessages = document.getElementById("backToMessages");
+    const exitToStart = document.getElementById("exitToStart");
+
+    // TIMER
+    const secondsEl = document.getElementById("seconds");
+    const daysEl = document.getElementById("days");
+    const hoursEl = document.getElementById("hours");
+    const minutesEl = document.getElementById("minutes");
+    const timerSection = document.getElementById("timerSection");
+    const birthdayDate = document.getElementById("birthdayDate");
+
+    const bgMusic = document.getElementById("bgMusic");
+
+    let fakeSeconds = 10;
+    let timerInterval = null;
+
+    // SECRET PASSWORD (change if you want)
+    const SECRET_PASSWORD = "1412";
+
+    // CRAZY BOX & WRAPPER
+    const crazyBox = document.getElementById("crazyBox");
+    const crazyWrapper = document.getElementById("crazyWrapper");
+    const poemContainer = document.getElementById("poemContainer");
+    const finalContainer = document.getElementById("finalContainer");
+    let surpriseOpened = false;
+
+    function showPage(n){
+      [page1,page2,page3,page4,page5].forEach(p => p.classList.remove("active"));
+
+      if(n === 1) page1.classList.add("active");
+      if(n === 2) page2.classList.add("active");
+      if(n === 3) {
+        page3.classList.add("active");
+        triggerConfetti();
+      }
+      if(n === 4) page4.classList.add("active");
+      if(n === 5) {
+        page5.classList.add("active");
+        triggerConfetti();
+        resetSurpriseBox();
+      }
+
+      window.scrollTo({top:0,behavior:"smooth"});
+    }
+
+    // Reset surprise state each time page 5 opens
+    function resetSurpriseBox(){
+      surpriseOpened = false;
+      crazyBox.classList.remove("open");
+      crazyBox.style.opacity = "1";
+      crazyBox.style.transform = "";
+      crazyWrapper.style.display = "flex";
+      poemContainer.style.display = "none";
+      finalContainer.style.display = "none";
+      poemContainer.classList.remove("fade-in");
+      finalContainer.classList.remove("fade-in");
+    }
+
+    // Page 1 -> Page 2
+    toPage2Btn.addEventListener("click", () => {
+      showPage(2);
+      // Start music on first interaction
+      bgMusic.play().catch(()=>{});
+      startFakeTimer();
+    });
+
+    function startFakeTimer(){
+      fakeSeconds = 10;
+      secondsEl.textContent = "10";
+      daysEl.textContent = "00";
+      hoursEl.textContent = "00";
+      minutesEl.textContent = "00";
+      birthdayDate.style.display = "none";
+      timerSection.style.display = "block";
+      toPage3Btn.style.display = "none";
+
+      if(timerInterval) clearInterval(timerInterval);
+
+      timerInterval = setInterval(()=>{
+        fakeSeconds--;
+        if(fakeSeconds < 0){
+          clearInterval(timerInterval);
+          // hide timer and show "For you" button + date
+          timerSection.style.display = "none";
+          birthdayDate.style.display = "block";
+          toPage3Btn.style.display = "inline-block";
+
+          // fade-in celebrating line
+          setTimeout(()=>{
+            const line = document.getElementById("celebrateLine");
+            if(line){
+              line.style.animation = "softFade 1.2s ease-out forwards";
+            }
+          },300);
+        }else{
+          secondsEl.textContent = fakeSeconds.toString().padStart(2,"0");
+        }
+      }, 300); // fast countdown
+    }
+
+    // Page 2 -> Page 3
+    toPage3Btn.addEventListener("click", () => {
+      showPage(3);
+    });
+
+    // Light confetti for page transitions
+    function triggerConfetti(){
+      const duration = 3000;
+      const end = Date.now() + duration;
+
+      const interval = setInterval(() => {
+        confetti({
+          particleCount: 6,
+          startVelocity: 25,
+          spread: 260,
+          ticks: 60,
+          origin: {
+            x: Math.random(),
+            y: Math.random() - 0.2
+          }
+        });
+        if (Date.now() > end) {
+          clearInterval(interval);
+        }
+      }, 220);
+    }
+
+    // BIG BLAST confetti for crazy box
+    function bigBlastConfetti(){
+      const duration = 2000;
+      const end = Date.now() + duration;
+
+      const interval = setInterval(() => {
+        // Center burst
+        confetti({
+          particleCount: 45,
+          startVelocity: 55,
+          spread: 90,
+          ticks: 90,
+          origin: { x: 0.5, y: 0.6 }
+        });
+        // Side bursts
+        confetti({
+          particleCount: 25,
+          startVelocity: 45,
+          spread: 120,
+          ticks: 80,
+          origin: { x: Math.random() * 0.4, y: Math.random() * 0.5 }
+        });
+        confetti({
+          particleCount: 25,
+          startVelocity: 45,
+          spread: 120,
+          ticks: 80,
+          origin: { x: 0.6 + Math.random() * 0.4, y: Math.random() * 0.5 }
+        });
+
+        if (Date.now() > end) {
+          clearInterval(interval);
+        }
+      }, 180);
+    }
+
+    // Card click -> go to page 4 with 12 hidden surprises
+    openCard.addEventListener("click", () => {
+      showPage(4);
+    });
+
+    // Make each month card reveal its message on tap
+    const monthCards = document.querySelectorAll(".month-card");
+    monthCards.forEach(card => {
+      const msg = card.querySelector(".month-msg");
+      card.addEventListener("click", () => {
+        msg.style.display = "block";   // just reveal (no hide again)
+      });
+    });
+
+    // PASSWORD UNLOCK
+    function handlePassword(){
+      const val = passwordInput.value.trim();
+      if(val === SECRET_PASSWORD){
+        wrongPassword.style.display = "none";
+        passwordInput.value = "";
+        showPage(5);
+      }else{
+        wrongPassword.style.display = "block";
+      }
+    }
+
+    unlockBtn.addEventListener("click", handlePassword);
+
+    passwordInput.addEventListener("keydown", (e)=>{
+      if(e.key === "Enter"){
+        handlePassword();
+      }
+    });
+
+    // Crazy box click -> open, disappear, show poem, then final text
+    crazyBox.addEventListener("click", () => {
+      if (surpriseOpened) return;
+      surpriseOpened = true;
+
+      // Open animation
+      crazyBox.classList.add("open");
+
+      // BIG BLAST confetti here 🎉
+      bigBlastConfetti();
+
+      // After lid opens, fade out the box
+      setTimeout(() => {
+        crazyBox.style.transition = "opacity 0.7s ease, transform 0.7s ease";
+        crazyBox.style.opacity = "0";
+        crazyBox.style.transform = "scale(0.7) translateY(40px)";
+      }, 800);
+
+      // Hide the wrapper so there is no big empty space
+      setTimeout(() => {
+        crazyWrapper.style.display = "none";
+      }, 1600);
+
+      // Show poem (almost immediately after box starts going)
+      setTimeout(() => {
+        poemContainer.style.display = "block";
+        poemContainer.classList.add("fade-in");
+      }, 900);
+
+      // After ~10 seconds show final message (plain, no pink box)
+      setTimeout(() => {
+        finalContainer.style.display = "block";
+        finalContainer.classList.add("fade-in");
+      }, 10000);
+    });
+
+    // Back from surprise page -> month messages
+    backToMessages.addEventListener("click", ()=>{
+      showPage(4);
+    });
+
+    // Exit -> go back to very first page
+    exitToStart.addEventListener("click", ()=>{
+      showPage(1);
+    });
+  </script>
+</body>
+</html>
